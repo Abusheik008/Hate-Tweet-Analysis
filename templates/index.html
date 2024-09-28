@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hate Tweet Analysis</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Add this line -->
+    <script src="static/script.js" defer></script>
+    
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .input-section {
+            flex: 1;
+            padding: 20px;
+            background-color: #f5f5f5;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            overflow: auto;
+        }
+
+        .details-section {
+            flex: 2;
+            padding: 20px;
+            background-color: #fff;
+            overflow: auto;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        h2, h3 {
+            color: #555;
+        }
+
+        textarea {
+            width: 100%;
+            margin-top: 10px;
+            resize: none;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            color: #fff;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #output {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+        }
+
+        .metrics-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 columns */
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .image-grid img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .metric-label {
+            text-align: center;
+            font-size: 16px;
+            color: #555;
+            margin-top: 10px;
+        }
+
+        .metric-container {
+            text-align: center;
+        }
+        #loader {
+            display: none; /* Initially hidden */
+            border: 8px solid #f3f3f3; /* Light grey */
+            border-top: 8px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 50px; /* Size of the spinner */
+            height: 50px; /* Size of the spinner */
+            animation: spin 1s linear infinite; /* Animation */
+            
+            transform: translate(-50%, -50%); /* Adjust position */
+            z-index: 9999; /* Ensure it appears above other elements */
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="input-section">
+            <h1>Hate Tweet Analysis</h1>
+            <textarea id="inputText" rows="10" placeholder="Type your tweet here..."></textarea>
+            <div id="loader" style="display:none;"></div>
+            <button id="submitBtn">Submit</button>
+            <button id="clearBtn">Clear</button>
+            <div id="output"></div>
+        </div>
+        <div class="details-section">
+            <h2>Project Details</h2>
+            <p>This project uses a fine-tuned RoBERTa model for hate tweet detection. The model identifies hate speech in tweets, aiding in social media monitoring and improving online safety.</p>
+            
+            <h3>Why RoBERTa Model Was Chosen</h3>
+            <p>RoBERTa stands for <strong>Robustly Optimized BERT Pretraining Approach</strong>. It was chosen due to its enhanced capabilities in handling complex language tasks compared to other models like BERT and DistilBERT.</p>
+
+            <p>Key reasons for choosing RoBERTa:</p>
+            <ul>
+                <li><strong>Larger Pretraining Data</strong>: RoBERTa is trained on a 160GB text corpus, significantly larger than BERT's, leading to improved performance in understanding language nuances.</li>
+                <li><strong>Training Optimizations</strong>: RoBERTa optimized the training procedure by using longer sequences and eliminating the Next Sentence Prediction (NSP) task, which helped focus on better sentence-level understanding.</li>
+                <li><strong>Better Contextual Understanding</strong>: RoBERTa's dynamic masking technique makes it more adaptable to understanding subtle and indirect forms of hate speech.</li>
+            </ul>
+
+            <h3>Data Preprocessing and Optimizations</h3>
+            <p>To ensure the model performs optimally, several data preprocessing techniques and optimizations were applied:</p>
+            <ul>
+                <li><strong>Data Cleaning</strong>: The dataset was cleaned by removing irrelevant columns, filling missing values, and ensuring the data was in the correct format.</li>
+                <li><strong>Tokenization</strong>: RoBERTa's tokenizer was used to break down tweets into tokens, converting them into a format suitable for model input. This tokenizer is better at handling subwords and rare tokens, improving accuracy for niche tasks like hate speech detection.</li>
+                <li><strong>Label Encoding</strong>: The labels were encoded to map them into a binary format (0 for non-hate speech, 1 for hate speech), ensuring the model could effectively distinguish between the two categories.</li>
+                <li><strong>Train-Validation Split</strong>: The dataset was split into training and validation sets. The split ensures that the model’s performance is properly evaluated during the training process, avoiding overfitting.</li>
+                <li><strong>Hyperparameter Optimization</strong>: Techniques like dropout and weight decay were used to avoid overfitting. This also helped the model generalize better to unseen data, which is crucial for detecting hate speech in real-world scenarios.</li>
+            </ul>
+
+            <div class="metrics-title">Model Metrics Visualization</div>
+            <div class="image-grid">
+                <div class="metric-container">
+                    <img src="static/Metrics.png" alt="Accuracy">
+                    <div class="metric-label">Accuracy</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
